@@ -4,6 +4,7 @@ import gspread_asyncio
 from aiogram import Bot, Dispatcher
 from aiogram.contrib.fsm_storage.memory import MemoryStorage
 from aiogram.contrib.fsm_storage.redis import RedisStorage2
+from gino import Gino
 from peewee import SqliteDatabase
 
 from data.config import load_config, PostgresConfig, SqliteConfig
@@ -28,7 +29,7 @@ bot['config'] = config
 bot['database'] = None
 if config.db is not None:
     if isinstance(config.db, PostgresConfig):
-        pass
+        bot['database'] = Gino()
     elif isinstance(config.db, SqliteConfig):
         bot['database'] = SqliteDatabase(database=config.db.filename, pragmas={'foreign_keys': 1})
 

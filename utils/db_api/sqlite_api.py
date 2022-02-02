@@ -8,9 +8,12 @@ class SqliteBaseModel(Model):
         database = dp.bot['database']
 
 
-def initialize_sqlite_db():
+def on_startup_sqlite():
     dp.bot['database'].connect()
     dp.bot['database'].create_tables([
 
     ], safe=True)
 
+
+def on_shutdown_sqlite():
+    dp.bot['database'].close()

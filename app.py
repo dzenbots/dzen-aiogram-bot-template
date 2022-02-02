@@ -1,8 +1,10 @@
 from aiogram import executor
+from gino import Gino
 from peewee import SqliteDatabase
 
 from loader import dp
-from utils.db_api.sqlite_models import initialize_sqlite_db
+from utils.db_api.postgresql_api import on_startup_postresql, on_shutdown_postresql
+from utils.db_api.sqlite_api import on_startup_sqlite, on_shutdown_sqlite
 from utils.notify_admins import on_startup_notify, on_shutdown_notify
 from utils.set_bot_commands import set_default_commands
 
@@ -10,7 +12,9 @@ from utils.set_bot_commands import set_default_commands
 async def on_startup(dispatcher):
     if dispatcher.bot['database'] is not None:
         if isinstance(dispatcher.bot['database'], SqliteDatabase):
-            initialize_sqlite_db()
+            on_startup_sqlite()
+        if isinstance(dispatcher.bot['database'], Gino):
+            await on_startup_postresql(dispatcher)
 
     import middlewares
     import filters
@@ -24,6 +28,11 @@ async def on_startup(dispatcher):
 
 
 async def on_shutdown(dispatcher):
+    if dispatcher.bot['database'] is not None:
+        if isinstance(dispatcher.bot['database'], SqliteDatabase):
+            on_shutdown_sqlite()
+        if isinstance(dispatcher.bot['database'], Gino):
+            await on_shutdown_postresql(dispatcher)
     await on_shutdown_notify(dispatcher)
 
 
