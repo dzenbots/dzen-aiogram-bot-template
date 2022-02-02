@@ -8,7 +8,7 @@ from aiogram.contrib.fsm_storage.redis import RedisStorage2
 from gino import Gino
 from peewee import SqliteDatabase
 
-from data.config import load_config, PostgresConfig, SqliteConfig
+from data.config import load_config, PostgresConfig, SqliteConfig, Config
 from utils.db_api.postgresql_api import db as postgres_db
 
 logger = logging.getLogger(__name__)
@@ -27,7 +27,7 @@ bot['google_client_manager'] = gspread_asyncio.AsyncioGspreadClientManager(
     config.misc.google_config.google_scoped_credentials
 ) if config.misc.google_config is not None else None
 
-bot['config'] = config
+bot['config']: Config = config
 bot['database']: Union[Gino, SqliteDatabase, None] = None
 if config.db is not None:
     if isinstance(config.db, PostgresConfig):
