@@ -39,9 +39,11 @@ class TimedBaseModel(BaseModel):
     )
 
 
-async def on_startup_postresql(dispatcher: Dispatcher):
+async def on_startup_postresql(dp: Dispatcher):
     logger.info("Setup PostgreSQL Connection")
-    await db.set_bind()
+    await db.set_bind(
+        f"postgresql://{dp.bot['config'].db.user}:{dp.bot['config'].db.password}@{dp.bot['config'].db.host}/{dp.bot['config'].db.database}"
+    )
 
 
 async def on_shutdown_postresql(dispatcher: Dispatcher):
