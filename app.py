@@ -2,7 +2,6 @@ from aiogram import executor
 from peewee import SqliteDatabase
 
 from loader import dp
-# import middlewares, filters, handlers
 from utils.db_api.sqlite_models import initialize_sqlite_db
 from utils.notify_admins import on_startup_notify, on_shutdown_notify
 from utils.set_bot_commands import set_default_commands
@@ -12,9 +11,11 @@ async def on_startup(dispatcher):
     if dispatcher.bot['database'] is not None:
         if isinstance(dispatcher.bot['database'], SqliteDatabase):
             initialize_sqlite_db()
+
     import middlewares
     import filters
     import handlers
+
     # Устанавливаем дефолтные команды
     await set_default_commands(dispatcher)
 
