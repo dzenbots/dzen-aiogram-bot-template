@@ -1,14 +1,15 @@
 import datetime
 from typing import List
 import sqlalchemy as sa
+from gino import Gino
 from aiogram import Dispatcher
 
 from loguru import logger
 
-from loader import dp
+db = Gino()
 
 
-class BaseModel(dp.bot['database'].Model):
+class BaseModel(db.Model):
     __abstract__ = True
 
     def __str__(self):
@@ -26,25 +27,25 @@ class BaseModel(dp.bot['database'].Model):
 class TimedBaseModel(BaseModel):
     __abstract__ = True
 
-    created_at = dp.bot['database'].Column(
-        dp.bot['database'].DateTime(True),
-        server_default=dp.bot['database'].func.now()
+    created_at = db.Column(
+        db.DateTime(True),
+        server_default=db.func.now()
     )
-    updated_at = dp.bot['database'].Column(
-        dp.bot['database'].DateTime(True),
+    updated_at = db.Column(
+        db.DateTime(True),
         default=datetime.datetime.utcnow,
         onupdate=datetime.datetime.utcnow,
-        server_default=dp.bot['database'].func.now(),
+        server_default=db.func.now(),
     )
 
 
 async def on_startup_postresql(dispatcher: Dispatcher):
     logger.info("Setup PostgreSQL Connection")
-    await dp.bot['database'].set_bind()
+    await db.set_bind()
 
 
 async def on_shutdown_postresql(dispatcher: Dispatcher):
-    bind = dp.bot['database'].pop_bind()
+    bind = db.pop_bind()
     if bind:
         logger.info("Close PostgreSQL Connection")
         await bind.close()
