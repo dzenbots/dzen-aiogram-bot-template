@@ -1,19 +1,21 @@
-from peewee import Model
+from peewee import Model, SqliteDatabase
 
 from loader import dp
+
+db = SqliteDatabase(database=dp.bot['config'].db.filename, pragmas={'foreign_keys': 1})
 
 
 class SqliteBaseModel(Model):
     class Meta:
-        database = dp.bot['database']
+        database = db
 
 
 def on_startup_sqlite():
-    dp.bot['database'].connect()
-    dp.bot['database'].create_tables([
+    db.connect()
+    db.create_tables([
 
     ], safe=True)
 
 
 def on_shutdown_sqlite():
-    dp.bot['database'].close()
+    db.close()

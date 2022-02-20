@@ -10,6 +10,7 @@ from peewee import SqliteDatabase
 
 from data.config import load_config, PostgresConfig, SqliteConfig, Config
 from utils.db_api.postgresql_api import db as postgres_db
+from utils.db_api.sqlite_api import db as sqlite_db
 
 logger = logging.getLogger(__name__)
 
@@ -33,6 +34,6 @@ if config.db is not None:
     if isinstance(config.db, PostgresConfig):
         bot['database'] = postgres_db
     elif isinstance(config.db, SqliteConfig):
-        bot['database'] = SqliteDatabase(database=config.db.filename, pragmas={'foreign_keys': 1})
+        bot['database'] = sqlite_db
 
 dp = Dispatcher(bot=bot, storage=storage)
