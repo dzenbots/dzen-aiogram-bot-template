@@ -12,7 +12,7 @@ from utils.set_bot_commands import set_default_commands
 async def on_startup(dispatcher):
     if dispatcher.bot['database'] is not None:
         if isinstance(dispatcher.bot['database'], SqliteDatabase):
-            on_startup_sqlite(dp=dispatcher)
+            on_startup_sqlite()
         if isinstance(dispatcher.bot['database'], Gino):
             await on_startup_postresql(dispatcher)
 
@@ -30,7 +30,7 @@ async def on_startup(dispatcher):
 async def on_shutdown(dispatcher):
     if dispatcher.bot['database'] is not None:
         if isinstance(dispatcher.bot['database'], SqliteDatabase):
-            on_shutdown_sqlite(dp=dispatcher)
+            on_shutdown_sqlite()
         if isinstance(dispatcher.bot['database'], Gino):
             await on_shutdown_postresql(dispatcher)
     await on_shutdown_notify(dispatcher)

@@ -29,7 +29,7 @@ class GroupsOfUsers(SqliteBaseModel):
     group_id = ForeignKeyField(Group, backref='users')
 
 
-def on_startup_sqlite(dp: Dispatcher):
+def on_startup_sqlite():
     if db:
         db.connect()
         db.create_tables([
@@ -48,6 +48,6 @@ def on_startup_sqlite(dp: Dispatcher):
         GroupsOfUsers.get_or_create(user_id=master_admin.id, group_id=master_group.id)
 
 
-def on_shutdown_sqlite(dp: Dispatcher):
+def on_shutdown_sqlite():
     if db:
         db.close()
