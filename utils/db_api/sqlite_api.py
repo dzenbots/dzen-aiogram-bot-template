@@ -5,8 +5,6 @@ from peewee import Model, SqliteDatabase, CharField, ForeignKeyField
 
 from loader import dp
 
-# db = SqliteDatabase(database=dp.bot['config'].db.filename, pragmas={'foreign_keys': 1})
-
 db: Union[SqliteDatabase, None] = dp.bot.get('database')
 
 
@@ -32,7 +30,6 @@ class GroupsOfUsers(SqliteBaseModel):
 
 
 def on_startup_sqlite(dp: Dispatcher):
-    db = dp.bot.get('database')
     if db:
         db.connect()
         db.create_tables([
@@ -47,11 +44,10 @@ def on_startup_sqlite(dp: Dispatcher):
                                                        'first_name': '',
                                                        'second_name': '',
                                                        'third_name': '',
-
                                                    })
         GroupsOfUsers.get_or_create(user_id=master_admin.id, group_id=master_group.id)
 
 
 def on_shutdown_sqlite(dp: Dispatcher):
-    db = dp.bot.get('database')
-    db.close()
+    if db:
+        db.close()
