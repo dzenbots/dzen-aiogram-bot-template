@@ -6,7 +6,6 @@ from loader import dp
 from utils.db_api.postgresql_api import on_startup_postresql, on_shutdown_postresql
 from utils.db_api.sqlite_api import on_startup_sqlite, on_shutdown_sqlite
 from utils.notify_admins import on_startup_notify, on_shutdown_notify
-from utils.set_bot_commands import set_default_commands
 
 
 async def on_startup(dispatcher):
@@ -20,10 +19,6 @@ async def on_startup(dispatcher):
     import filters
     import handlers
 
-    # Устанавливаем дефолтные команды
-    await set_default_commands(dispatcher)
-
-    # Уведомляет про запуск
     await on_startup_notify(dispatcher)
 
 

@@ -1,7 +1,7 @@
 from aiogram.dispatcher.filters import BoundFilter
 from aiogram.types import CallbackQuery
 
-from utils.db_api.sqlite_models import User, GroupsOfUsers, Group
+from utils.db_api.sqlite_api import User, Group, GroupsOfUsers
 
 
 class IsInGroupFilter(BoundFilter):
