@@ -7,7 +7,13 @@ class GetMyID(Command):
         super().__init__(['get_my_id'])
 
 
-class FindUserCommand(Command):
+class UsersCommand(Command):
 
     def __init__(self):
-        super().__init__(['find_user'])
+        super().__init__(['users'])
+
+
+class GroupsCommand(Command):
+
+    def __init__(self):
+        super().__init__(['groups'])

@@ -6,6 +6,7 @@ from loader import dp
 from utils.db_api.postgresql_api import on_startup_postresql, on_shutdown_postresql
 from utils.db_api.sqlite_api import on_startup_sqlite, on_shutdown_sqlite
 from utils.notify_admins import on_startup_notify, on_shutdown_notify
+from utils.set_bot_commands import set_admin_commands
 
 
 async def on_startup(dispatcher):
@@ -19,6 +20,7 @@ async def on_startup(dispatcher):
     import filters
     import handlers
 
+    await set_admin_commands(dp=dispatcher, chat_id=dp.bot.get('config').tg_bot.admin_id)
     await on_startup_notify(dispatcher)
 
 
