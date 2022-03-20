@@ -5,14 +5,14 @@ from aiogram.dispatcher.filters.builtin import CommandStart
 from keyboards.default import get_user_reply_markup
 from loader import dp
 from utils.db_api.sqlite_api import User
-from utils.set_bot_commands import set_commands_for_unauth_users, set_default_commands
+from utils.set_bot_commands import set_user_commands
 
 
 @dp.message_handler(CommandStart(), new_user=True, state='*', chat_type='private')
 async def bot_start(message: types.Message, state: FSMContext):
     await state.finish()
     user = User.get(telegram_id=message.from_user.id)
-    await set_commands_for_unauth_users(dp=dp, chat_id=message.from_user.id)
+    await set_user_commands(dp=dp, chat_id=message.from_user.id)
     await message.answer(
         text="\n".join(
             (
@@ -29,6 +29,6 @@ async def bot_start(message: types.Message, state: FSMContext):
 async def bot_start_further(message: types.Message, state: FSMContext):
     await state.finish()
     user = User.get(telegram_id=message.from_user.id)
-    await set_default_commands(dp=dp, chat_id=message.from_user.id)
+    await set_user_commands(dp=dp, chat_id=message.from_user.id)
     await message.answer(text=f"С возвращением! Для просмотра доступных Вам функций нажмите на кнопку <b>На главную</b>",
                          reply_markup=get_user_reply_markup(user))

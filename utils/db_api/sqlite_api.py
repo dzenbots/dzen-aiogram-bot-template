@@ -38,6 +38,7 @@ def on_startup_sqlite():
             GroupsOfUsers
         ], safe=True)
         master_group, created = Group.get_or_create(group_name='MasterAdmin')
+        admins_group, created = Group.get_or_create(group_name='Admins')
         Group.get_or_create(group_name='Unauthorized')
         master_admin, created = User.get_or_create(telegram_id=dp.bot.get('config').tg_bot.admin_id,
                                                    defaults={
@@ -46,6 +47,7 @@ def on_startup_sqlite():
                                                        'third_name': '',
                                                    })
         GroupsOfUsers.get_or_create(user_id=master_admin.id, group_id=master_group.id)
+        GroupsOfUsers.get_or_create(user_id=master_admin.id, group_id=admins_group.id)
 
 
 def on_shutdown_sqlite():

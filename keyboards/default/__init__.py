@@ -1,3 +1,4 @@
+from . import active_directory
 from aiogram.types import ReplyKeyboardRemove, ReplyKeyboardMarkup, KeyboardButton
 
 from utils.db_api.sqlite_api import User, GroupsOfUsers, Group

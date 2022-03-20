@@ -2,7 +2,7 @@ from aiogram.dispatcher.filters import BoundFilter
 from aiogram.types import Message
 from loguru import logger
 
-from keyboards.inline.user_info import edit_telegram_user_keyboard
+from keyboards.inline.active_directory.user_info import edit_telegram_user_keyboard
 from loader import dp
 from utils.db_api.sqlite_api import User, GroupsOfUsers, Group
 from utils.misc.telegram_user_info import get_telegram_user_info

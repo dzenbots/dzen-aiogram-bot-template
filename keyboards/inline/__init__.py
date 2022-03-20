@@ -1,4 +1,5 @@
 from aiogram.utils.callback_data import CallbackData
+from . import active_directory
 
 telegram_user_cb_data = CallbackData('Tuser', 'func', 'user_id')
 

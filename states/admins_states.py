@@ -6,4 +6,6 @@ class FindUserState(StatesGroup):
 
 
 class GroupsEditState(StatesGroup):
-    wait_for_name = State()
+    choose_action = State()
+    wait_for_group_name = State()
+    confirmation = State()
