@@ -40,7 +40,6 @@ async def set_commands_for_unauth_users(dp: Dispatcher, chat_id):
 
 
 async def set_user_commands(dp: Dispatcher, chat_id):
-    user = User.get(telegram_id=chat_id)
     if 'Unauthorized' in [group.group_name for group in
                           Group.select(Group).join(GroupsOfUsers).join(User).where(User.telegram_id == chat_id)]:
         await set_commands_for_unauth_users(dp, chat_id)
